@@ -1,0 +1,1 @@
+exit.o: exit.s

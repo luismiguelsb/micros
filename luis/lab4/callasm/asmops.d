@@ -1,0 +1,1 @@
+asmops.o: asmops.s
