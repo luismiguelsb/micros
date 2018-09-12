@@ -1,1 +1,0 @@
-pushled.o: pushled.c
