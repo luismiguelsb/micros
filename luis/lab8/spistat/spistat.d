@@ -1,0 +1,1 @@
+spistat.o: spistat.c
