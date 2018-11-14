@@ -27,9 +27,11 @@ int main(int argc,char * argv[])
                 return -1;
         }
         
-        int x = atoi(argv[1]) / 100 * atoi(PWM_PERIOD);
+        float x = atof(argv[1]) / 100 * atof(PWM_PERIOD);
+	
+	printf("x=%f atoi=%f atoi=%f	\n",x,atof(argv[1]),atof(PWM_PERIOD));
         
-        pwm_duty_cycle(x);
+        pwm_duty_cycle((int)x);
         
 	pwm_enable(1);
 
@@ -71,7 +73,9 @@ void pwm_duty_cycle(int duty_cycle)
      char buffer[100];
      
     // SETA O DUTY CYCLE DA GALILEO EM 50%
+     
     snprintf(buffer,sizeof buffer,"%d\n",duty_cycle);
+    printf("olha so: %s,  %d\n",buffer,duty_cycle);
     pputs("/sys/class/pwm/pwmchip0/pwm1/duty_cycle",buffer);
   
 }
