@@ -15,7 +15,7 @@ CCARFLAGS=-crvs
 all: $(TARGET)
 
 $(TARGET): $(SRCS:.c=.o)
-	$(CCAR) $(CCARFLAGS) $@ $^
+	$(CCAR) $(CCARFLAGS) $@ $^ 
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<

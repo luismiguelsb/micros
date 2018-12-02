@@ -355,7 +355,7 @@ void conversor_continuous(double *media, double *desvio)
     //
   }
   *desvio /= 100;
-  //*desvio = sqrtf(*desvio);
+  *desvio = sqrtf(*desvio);
 
   fclose(file);
 }

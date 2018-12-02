@@ -13,7 +13,7 @@ LDFLAGS=$(LIBDIR) $(LIBS)
 all: $(TARGET)
 
 $(TARGET): $(SRCS:.c=.o) ../lib/libprova2.a
-	$(CC) -o $@ $^ $(LDFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS) -lm
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
