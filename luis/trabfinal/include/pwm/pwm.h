@@ -1,5 +1,10 @@
 // HEADER DO PWM KKK
 
+#pragma once
+
+
+
+
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,7 +12,7 @@
 #include <galileo2io.h>
 
 #define PWM_PERIOD 	"20000000"
-#define PWM_PERIOD_2 	"10000000"
+#define PWM_PERIOD_2 	"10000000" 
 
 
 void pwm_init();

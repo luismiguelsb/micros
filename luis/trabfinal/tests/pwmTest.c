@@ -1,6 +1,10 @@
 // teste pra pwm
 
-#include "../include/pwm.h"
+#include "pwm.h"
+#include "quanser.h"
+#include "sensors.h"
+
+
 
 
 int main(int argc,char * argv[])

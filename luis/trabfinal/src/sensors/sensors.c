@@ -1,6 +1,7 @@
 // LIB DOS SENSORES (DECODER E FIM DE CURSO) KKK
 
 #include "sensors/sensors.h"
+#include "quanser/quanser.h"
 
 int limitSwitch(int which_switch)
 {
@@ -12,7 +13,7 @@ int limitSwitch(int which_switch)
 	
 	if( which_switch == 1)
 	{
-		if ( pgets(data_str,sizeof data_str,"/sys/class/gpio/gpio0/value") == -1)
+		if ( pgets(data_str,sizeof data_str,"/sys/class/gpio/gpio0/value") == NULL)
 			return ERRO;
 		
         value = atoi(data_str);
@@ -21,7 +22,7 @@ int limitSwitch(int which_switch)
 	}
 	else
 	{
-		if ( pgets(data_str,sizeof data_str,"/sys/class/gpio/gpio1/value") == -1)
+		if ( pgets(data_str,sizeof data_str,"/sys/class/gpio/gpio1/value") == NULL)
 			return ERRO;
 		
         value = atoi(data_str);

@@ -1,11 +1,21 @@
 // HEADER QUE INTEGRA AS LIB KKK
 
+#pragma once
+
+
+
+
 #define KP 0.05
 #define KI 0.05
 #define KD 0.01
 
 #define ERRO -1
 #define OK 0
+
+#define HIGHER_VOLTAGE 27.0
+#define LOWER_VOLTAGE -27.0
+#define HIGHER_DUTYCYCLE 20000000.0
+#define LOWER_DUTYCYCLE 0.0
 
 typedef struct PID
 {
