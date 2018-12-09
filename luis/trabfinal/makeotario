@@ -1,0 +1,94 @@
+#	-- bropdox --
+#
+#	Makefile do projeto bropdox
+#
+#	@param target
+#		"all" - compila
+#		"clean" - limpa os binários gerados na compilação
+#		"redo" - limpa binários e então compila
+#		"test" - compila e realiza testes
+#
+#	Se make não recebe parâmetros, a ação default é all
+
+####################################################################################################
+#	Definições:
+
+#	Diretorios do projeto
+INC_DIR = include
+OBJ_DIR = bin
+OUT_DIR = build
+SRC_DIR = src
+LIB_DIR = lib
+TST_DIR = tests
+
+DFLAG = 
+
+#	Flags de compilaçao. Debug para uso no GDB
+
+FLAGS=-O2 -Wall -MMD
+INCLUDE=-I. -Iinclude
+LIBS=
+
+# CC=$(CROSS_COMPILE)gcc
+# CCAR=$(CROSS_COMPILE)ar
+CC= gcc
+CCAR= ar
+
+CFLAGS=$(FLAGS) $(INCLUDE)
+LDFLAGS=$(LIB_DIR) $(LIBS)
+CCARFLAGS=-crvs
+
+
+####################################################################################################
+#	Arquivos:
+
+#	Fonte da main
+MAIN = $(wildcard src/*.c)
+
+#	Caminho do arquivo estático final
+TARGET = $(patsubst %.c, $(OUT_DIR)/%, $(notdir $(MAIN)))
+
+#	Outros arquivos fonte
+SRC =\
+	$(wildcard src/pwm/*.c)\
+	$(wildcard src/quanser/*.c)\
+	$(wildcard src/sensors/*.c)
+
+#	Objetos a serem criados
+OBJ = $(patsubst %.c, $(OBJ_DIR)/%.o, $(notdir $(SRC)))
+
+
+
+####################################################################################################
+#	Regras:
+
+#	Binarios
+$(TARGET): $(OUT_DIR)/%: $(SRC_DIR)/%.c $(OBJ)
+	$(CC) -o $@ $^ $(INC) $(LIB)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/*/%.c
+	$(CC) -c -o $@ $< $(INC) $(CFLAGS)
+
+
+####################################################################################################
+#	Alvos:
+
+.DEFAULT_GOAL = all
+
+all: $(TARGET)
+
+clean:
+	rm -f $(OBJ_DIR)/*.o $(INC_DIR)/*~ $(TARGET) *~ *.o
+
+redo: clean all
+
+test: all 
+	@echo "tests are in the making!"
+
+#	Debug de variaveis da make
+print-%:
+	@echo $* = $($*)
+
+.PHONY: all clean redo test
+
+
