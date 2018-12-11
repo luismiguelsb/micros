@@ -1,4 +1,4 @@
-TARGET=pwmTest motorPwmTest motorVoltTest decoderTest sensorTest pidTest
+TARGET=../tests/pwmTest ../tests/motorPwmTest ../tests/motorVoltTest ../tests/decoderTest ../tests/sensorTest ../tests/pidTest
 SRCS=pwm.c quanser.c sensors.c
 
 FLAGS=-O2 -Wall -g -MMD
@@ -21,7 +21,4 @@ $(TARGET): %: %.c $(SRCS:.c=.o)
 -include $(SRCS:.c=.d)
 
 clean:
-	rm -f *~ *.bak *.o *.d
-
-distclean: clean
-	rm -f $(TARGET)
+	rm -f $(TARGET) *~ *.bak *.o *.d ../tests/*.d

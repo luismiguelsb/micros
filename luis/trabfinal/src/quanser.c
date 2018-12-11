@@ -5,11 +5,20 @@
 //					Gabriel Stefaniak Niemiec
 //					Nicolas Eymael da Silva
 
+/*! \file quanser.c
+	\brief Source code with general functions of the Quanser Project.
+*/
+
 #include "../include/pwm.h"
 #include "../include/sensors.h"
 #include "../include/quanser.h"
 
-// inicializa o pid
+/*! \fn int initPID(float initialAngle, float finalAngle)
+	\brief Initialize the PID struct.
+	\param initialAngle Current position of the QUANSER arm.
+	\param finalAngle Desired position of the QUANSER arm.
+	\return OK or ERRO.
+*/
 int initPID(float initialAngle, float finalAngle)
 {
 	g_pid.integral = 0;
@@ -19,7 +28,12 @@ int initPID(float initialAngle, float finalAngle)
 	return OK;
 }
 
-// controlador PID que retorna a tensão a ser aplicada no motor
+/*! \fn float tensaoPID(float dt, float currentAngle)
+	\brief Calculate the voltage to be applied to the motor based on the PID controller.
+	\param dt Time interval.
+	\param currentAngle Current position of the QUANSER arm.
+	\return Voltage calculated.
+*/
 float tensaoPID(float dt, float currentAngle)
 {
 	float derivada, erro, tensao;
@@ -47,12 +61,20 @@ float tensaoPID(float dt, float currentAngle)
 	return tensao;
 }
 
+/*! \fn float diffPID()
+	\brief Calculate the difference between the desired position and the current position of the QUANSER arm.
+	\return Difference calculated.
+*/
 float diffPID()
 {
 	return g_pid.finalAngle - g_pid.lastAngle;
 }
 
-// mapeia a tensão (recebida pelo PID) para ciclo de trabalho do PWM
+/*! \fn int voltage_to_dutycycle(float voltage)
+	\brief Map the voltage interval of the power source (in V) to the duty cycle interval of the PWM signal (in ns).
+	\param voltage Value to be mapped (in V).
+	\return Duty cycle calculated.
+*/
 int voltage_to_dutycycle(float voltage)
 {
   
@@ -64,7 +86,10 @@ int voltage_to_dutycycle(float voltage)
  
 }
 
-//liga ou desliga a ponte H
+/*! \fn void bridgeEnable(int enable)
+	\brief Choose if you want to enable or disable the H-bridge.
+	\param enable 1 enable and 0 disable.
+*/
 void bridgeEnable(int enable)
 {
 	if(enable == 0)
@@ -73,7 +98,9 @@ void bridgeEnable(int enable)
 		pputs("/sys/class/gpio/gpio13/value","1");
 }
 
-
+/*! \fn float getCounter()
+	\brief Read the quadrature decoder counter.
+*/
 float getCounter()
 {
 	float value;
@@ -84,7 +111,10 @@ float getCounter()
 	return value;
 }
 
-
+/*! \fn float counterToRad(float value)
+	\brief Transform the raw value of the quadrature decoder counter into radians.
+	\param value Raw value.
+*/
 float counterToRad(float value)
 {
 	return 2 * 3.14159265 * value / 4096;

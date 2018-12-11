@@ -34,7 +34,7 @@ void pwm_init()
 }
 
 
-/*! \fn pwm_enable(int enable)
+/*! \fn void pwm_enable(int enable)
 	\brief Choose if you want to enable or disable the PWM signal.
 	\param enable 1 enable and 0 disable.
 */
@@ -49,7 +49,7 @@ void pwm_enable(int enable)
 }
 
 
-/*! \fn pwm_duty_cycle(int duty_cycle)
+/*! \fn void pwm_duty_cycle(int duty_cycle)
 	\brief Set the duty cycle of the PWM signal.
 	\param duty_cycle Value in ns (must be lower than PWM_PERIOD)
 */
@@ -57,10 +57,8 @@ void pwm_duty_cycle(int duty_cycle)
 {
      char buffer[100];
      
-    // SETA O DUTY CYCLE DA GALILEO EM 50%
-     
+    // SETA O DUTY CYCLE DA GALILEO EM duty_cycle  
     snprintf(buffer,sizeof buffer,"%d\n",duty_cycle);
-    //printf("olha so: %s,  %d\n",buffer,duty_cycle);
     pputs("/sys/class/pwm/pwmchip0/pwm1/duty_cycle",buffer);
   
 }
