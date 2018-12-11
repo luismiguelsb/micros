@@ -1,17 +1,14 @@
 // LIB QUE INTEGRA AS LIB KKK
 
 #include "../include/pwm.h"
+#include "../include/sensors.h"
 #include "../include/quanser.h"
 
-
-
-
-
 // inicializa o pid
-int initPID(float finalAngle)
+int initPID(float initialAngle, float finalAngle)
 {
 	g_pid.integral = 0;
-	g_pid.lastAngle = 0;
+	g_pid.lastAngle = initialAngle;
 	g_pid.finalAngle = finalAngle;
 	
 	return OK;
@@ -45,6 +42,10 @@ float tensaoPID(float dt, float currentAngle)
 	return tensao;
 }
 
+float diffPID(){
+	return g_pid.finalAngle - g_pid.lastAngle;
+}
+
 // mapeia a tensão (recebida pelo PID) para ciclo de trabalho do PWM
 int voltage_to_dutycycle(float voltage)
 {
@@ -57,6 +58,24 @@ int voltage_to_dutycycle(float voltage)
  
 }
 
+//liga ou desliga a ponte H
+void bridgeEnable(int enable){
+	if(enable == 0)
+		pputs("/sys/class/gpio/gpio13/value","0");
+	else
+		pputs("/sys/class/gpio/gpio13/value","1");
+}
 
 
+float getCounter(){
+	float value;
+	resetDecoder();
+	value = readDecoderCounter();
+	closeDecoder();
 
+	return value;
+}
+
+float counterToRad(float value){
+	return 2 * 3.14159265 * value / 1024;
+}

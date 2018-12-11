@@ -1,5 +1,5 @@
-TARGET=pwmTest
-SRCS=$(TARGET).c pwm.c quanser.c sensors.c
+TARGET=pwmTest motorPwmTest motorVoltTest decoderTest sensorTest pidTest
+SRCS=pwm.c quanser.c sensors.c
 
 FLAGS=-O2 -Wall -g -MMD
 INCLUDE=-I. -I../include
@@ -12,8 +12,8 @@ LDFLAGS=$(LIBDIR) $(LIBS)
 
 all: $(TARGET)
 
-$(TARGET): $(SRCS:.c=.o)
-	$(CC) -o $@ $^ $(LDFLAGS)
+$(TARGET): %: %.c $(SRCS:.c=.o)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<

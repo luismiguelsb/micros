@@ -38,7 +38,7 @@ void pwm_duty_cycle(int duty_cycle)
     // SETA O DUTY CYCLE DA GALILEO EM 50%
      
     snprintf(buffer,sizeof buffer,"%d\n",duty_cycle);
-    printf("olha so: %s,  %d\n",buffer,duty_cycle);
+    //printf("olha so: %s,  %d\n",buffer,duty_cycle);
     pputs("/sys/class/pwm/pwmchip0/pwm1/duty_cycle",buffer);
   
 }
