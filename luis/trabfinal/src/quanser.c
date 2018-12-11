@@ -1,4 +1,9 @@
-// LIB QUE INTEGRA AS LIB KKK
+
+// QUANSER SOURCE CODE FOR THE QUANSER PROJECT
+//
+// Group members: 	Luís Miguel Santos Batista
+//					Gabriel Stefaniak Niemiec
+//					Nicolas Eymael da Silva
 
 #include "../include/pwm.h"
 #include "../include/sensors.h"
@@ -42,7 +47,8 @@ float tensaoPID(float dt, float currentAngle)
 	return tensao;
 }
 
-float diffPID(){
+float diffPID()
+{
 	return g_pid.finalAngle - g_pid.lastAngle;
 }
 
@@ -59,7 +65,8 @@ int voltage_to_dutycycle(float voltage)
 }
 
 //liga ou desliga a ponte H
-void bridgeEnable(int enable){
+void bridgeEnable(int enable)
+{
 	if(enable == 0)
 		pputs("/sys/class/gpio/gpio13/value","0");
 	else
@@ -67,7 +74,8 @@ void bridgeEnable(int enable){
 }
 
 
-float getCounter(){
+float getCounter()
+{
 	float value;
 	resetDecoder();
 	value = readDecoderCounter();
@@ -76,6 +84,10 @@ float getCounter(){
 	return value;
 }
 
-float counterToRad(float value){
-	return 2 * 3.14159265 * value / 1024;
+
+float counterToRad(float value)
+{
+	return 2 * 3.14159265 * value / 4096;
 }
+
+

@@ -1,4 +1,9 @@
-// LIB DOS SENSORES (DECODER E FIM DE CURSO) KKK
+
+// SENSORS SOURCE CODE FOR THE QUANSER PROJECT
+//
+// Group members: 	Luís Miguel Santos Batista
+//					Gabriel Stefaniak Niemiec
+//					Nicolas Eymael da Silva
 
 #include "../include/sensors.h"
 #include "../include/quanser.h"
@@ -31,7 +36,8 @@ int limitSwitch(int which_switch)
 	}
 }
 
-void setupDecoder(){
+void setupDecoder()
+{
 	uint8_t mode=SPI_MODE_0;
 	uint8_t lsb=0;
 	uint8_t bpw=8;
@@ -66,7 +72,8 @@ void setupDecoder(){
 	writeDecoder(0x90, MDR1);
 }	
 
-void writeDecoder(char op, char data){
+void writeDecoder(char op, char data)
+{
 	pputs("/sys/class/gpio/gpio10/value","1");
 	pputs("/sys/class/gpio/gpio10/value","0");
 
@@ -82,7 +89,8 @@ void writeDecoder(char op, char data){
 	pputs("/sys/class/gpio/gpio10/value","1");
 }
 
-char readDecoder(char op){
+char readDecoder(char op)
+{
 	int n = 0;
 	char data;
 	pputs("/sys/class/gpio/gpio10/value","1");
@@ -101,7 +109,8 @@ char readDecoder(char op){
 	return data;
 }
 
-int readDecoderCounter(){
+int readDecoderCounter()
+{
 	int n = 0;
 	int data, datalsb, datamsb;
 	char op = 0x60;
@@ -126,7 +135,8 @@ int readDecoderCounter(){
 	return data;
 }
 
-void resetDecoder(){
+void resetDecoder()
+{
 	char op = 0x20;
 	pputs("/sys/class/gpio/gpio10/value","1");
 	pputs("/sys/class/gpio/gpio10/value","0");
@@ -139,6 +149,9 @@ void resetDecoder(){
 	pputs("/sys/class/gpio/gpio10/value","1");
 }
 
-void closeDecoder(){
+
+void closeDecoder()
+{
 	close(devspi);
 }
+

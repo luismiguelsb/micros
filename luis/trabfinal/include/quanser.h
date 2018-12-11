@@ -1,9 +1,11 @@
-// HEADER QUE INTEGRA AS LIB KKK
+
+// QUANSER HEADER FOR THE QUANSER PROJECT
+//
+// Group members: 	Luís Miguel Santos Batista
+//					Gabriel Stefaniak Niemiec
+//					Nicolas Eymael da Silva
 
 #pragma once
-
-
-
 
 #define KP 0.05
 #define KI 0.05
@@ -28,16 +30,20 @@ typedef struct PID
 PID g_pid;
 
 
-// inicializa o pid
-int initPID(float finalAngle);
+int initPID(float initialAngle, float finalAngle);
 
-
-// controlador PID que retorna a tensão a ser aplicada no motor
 float tensaoPID(float dt, float currentAngle);
 
+float diffPID();
 
-// mapeia a tensão (recebida pelo PID) para ciclo de trabalho do PWM
 int voltage_to_dutycycle(float voltage);
+
+void bridgeEnable(int enable);
+
+float getCounter();
+
+float counterToRad(float value);
+
 
 
 
