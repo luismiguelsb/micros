@@ -5,6 +5,10 @@ https://moodle.ece.ufrgs.br/course/view.php?id=10
 
 http://www.ece.ufrgs.br/~fetter/
 
+* SE O SCRIPT INIT NÃO FUNCIONA:
+`dos2unix < "oldScript" > "newScript"`
+
+
 
 ## Comandos básicos
 * Adição de usuário
