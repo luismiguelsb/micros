@@ -22,7 +22,7 @@ void pwm_init()
 	
 	// SETA O ENABLE DA GALILEO COMO 0
     snprintf(buffer,sizeof buffer,"0");
-    pputs("/sys/class/pwm/pwmchip0/pwm1/enable",buffer);
+    pputs("/sys/class/pwm/pwmchip0/pwm5/enable",buffer);
     
     // SETA O PWM PERIOD DA GALILEO
     snprintf(buffer,sizeof buffer,PWM_PERIOD);
@@ -30,7 +30,7 @@ void pwm_init()
     
     // SETA O DUTY CYCLE DA GALILEO EM 50%
     snprintf(buffer,sizeof buffer,PWM_PERIOD_2);
-    pputs("/sys/class/pwm/pwmchip0/pwm1/duty_cycle",buffer); 
+    pputs("/sys/class/pwm/pwmchip0/pwm5/duty_cycle",buffer); 
 }
 
 
@@ -44,7 +44,7 @@ void pwm_enable(int enable)
     
     // SETA O ENABLE DA GALILEO COMO enable
     snprintf(buffer,sizeof buffer,"%d\n",enable);
-    pputs("/sys/class/pwm/pwmchip0/pwm1/enable",buffer);
+    pputs("/sys/class/pwm/pwmchip0/pwm5/enable",buffer);
   
 }
 
@@ -59,6 +59,6 @@ void pwm_duty_cycle(int duty_cycle)
      
     // SETA O DUTY CYCLE DA GALILEO EM duty_cycle  
     snprintf(buffer,sizeof buffer,"%d\n",duty_cycle);
-    pputs("/sys/class/pwm/pwmchip0/pwm1/duty_cycle",buffer);
+    pputs("/sys/class/pwm/pwmchip0/pwm5/duty_cycle",buffer);
   
 }
