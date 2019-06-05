@@ -54,7 +54,7 @@ case "$1" in
 	
 	#	IO3		OUT	PWM		>> IO6
 	if [ ! -d /sys/class/pwm/pwmchip0/pwm5 ] ; then
-	    echo -n "1" > /sys/class/pwm/pwmchip0/export
+	    echo -n "5" > /sys/class/pwm/pwmchip0/export
 	fi
 	chgrp projeto /sys/class/pwm/pwmchip0/device/pwm_period
 	chmod g+w /sys/class/pwm/pwmchip0/device/pwm_period
