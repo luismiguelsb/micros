@@ -23,11 +23,5 @@ int main(int argc,char * argv[])
 
 	bridgeEnable(1);
 
-	sleep(1);
-
-	bridgeEnable(0);
-
-	pwm_enable(0);
-
     return 0;
 }
