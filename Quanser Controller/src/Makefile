@@ -1,4 +1,4 @@
-TARGET=../tests/pwmTest ../tests/motorPwmTest ../tests/motorVoltTest ../tests/decoderTest ../tests/sensorTest ../tests/pidTest
+TARGET=../tests/pwmTest ../tests/motorPwmTest ../tests/motorVoltTest ../tests/decoderTest ../tests/sensorTest ../tests/pidTest ../tests/stop
 SRCS=pwm.c quanser.c sensors.c
 
 FLAGS=-O2 -Wall -g -MMD
