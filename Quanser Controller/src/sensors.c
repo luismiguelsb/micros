@@ -32,7 +32,8 @@ int limitSwitch(int which_switch)
 		
         value = atoi(data_str);
 		
-		return value;
+		return !(value); // os sensores de fim de curso do quanser tem a logica invertida (quando é 1, ta desligado, quando é 0, ta ligado)
+		// o ! ajusta isso
 	}
 	else
 	{
@@ -41,7 +42,8 @@ int limitSwitch(int which_switch)
 		
         value = atoi(data_str);
 		
-		return value;
+		return !(value); // os sensores de fim de curso do quanser tem a logica invertida (quando é 1, ta desligado, quando é 0, ta ligado)
+		// o ! ajusta isso
 	}
 }
 
