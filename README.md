@@ -5,6 +5,8 @@ https://moodle.ece.ufrgs.br/course/view.php?id=10
 
 http://www.ece.ufrgs.br/~fetter/
 
+https://github.com/levindoneto/galileo-controller?fbclid=IwAR3RvdYIeDwqhvFAcB1gZW_ZphcFAnavoNzyOfuuDKGgP0aKZ0cZjYn0P-g
+
 * SE O SCRIPT INIT NÃO FUNCIONA:
 `dos2unix < "oldScript" > "newScript"`
 
