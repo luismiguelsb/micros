@@ -57,6 +57,7 @@ void setupDecoder()
 	uint8_t bpw=8;
 	uint32_t rate=5000000;
 	
+	// initialize the spi communication
 	if((devspi=open("/dev/spidev1.0",O_RDWR))==-1)
 	{
 		perror("Can't open device");
@@ -82,8 +83,12 @@ void setupDecoder()
 		perror("Can't read maximal rate");
 		return;
 	}
-	writeDecoder(0x88, MDR0);
-	writeDecoder(0x90, MDR1);
+	
+	// configure the decoder mode
+	writeDecoder(WRITE_MDR0, QUADRX4|FREE_RUN|DISABLE_INDX|FILTER_2); // ou QUADRX1 ?
+	writeDecoder(WRITE_MDR1, BYTE_2|EN_CNTR|NO_FLAGS); // ou BYTE_4 ?
+	
+	resetDecoder(CLR_CNTR);
 }	
 
 /*! \fn void writeDecoder(char op, char data)
@@ -93,8 +98,9 @@ void setupDecoder()
 */
 void writeDecoder(char op, char data)
 {
-	pputs("/sys/class/gpio/gpio10/value","1");
-	pputs("/sys/class/gpio/gpio10/value","0");
+	// the HIGH-LOW transition is the signal to start the communication
+	pputs("/sys/class/gpio/gpio26/value","1");
+	pputs("/sys/class/gpio/gpio26/value","0");
 
 	if(write(devspi, &op, sizeof(op))<0){
 		printf("Erro ao escrever opcode\n");
@@ -105,7 +111,7 @@ void writeDecoder(char op, char data)
 		return;
 	}
 
-	pputs("/sys/class/gpio/gpio10/value","1");
+	pputs("/sys/class/gpio/gpio26/value","1");
 }
 
 /*! \fn char readDecoder(char op);
@@ -117,8 +123,9 @@ char readDecoder(char op)
 {
 	int n = 0;
 	char data;
-	pputs("/sys/class/gpio/gpio10/value","1");
-	pputs("/sys/class/gpio/gpio10/value","0");
+	// the HIGH-LOW transition is the signal to start the communication
+	pputs("/sys/class/gpio/gpio26/value","1");
+	pputs("/sys/class/gpio/gpio26/value","0");
 
 	if(write(devspi, &op, sizeof(op))<0){
 		printf("Erro ao escrever opcode\n");
@@ -129,7 +136,7 @@ char readDecoder(char op)
 	while(n != 1)
 		n = read(devspi, &data, 1);
 
-	pputs("/sys/class/gpio/gpio10/value","1");
+	pputs("/sys/class/gpio/gpio26/value","1");
 	return data;
 }
 
@@ -142,8 +149,9 @@ int readDecoderCounter()
 	int n = 0;
 	int data, datalsb, datamsb;
 	char op = 0x60;
-	pputs("/sys/class/gpio/gpio10/value","1");
-	pputs("/sys/class/gpio/gpio10/value","0");
+	// the HIGH-LOW transition is the signal to start the communication
+	pputs("/sys/class/gpio/gpio26/value","1");
+	pputs("/sys/class/gpio/gpio26/value","0");
 
 	if(write(devspi, &op, sizeof(op))<0){
 		printf("Erro ao escrever opcode\n");
@@ -157,7 +165,7 @@ int readDecoderCounter()
 	while(n != 1)
 		n = read(devspi, &datalsb, 1);
 
-	pputs("/sys/class/gpio/gpio10/value","1");
+	pputs("/sys/class/gpio/gpio26/value","1");
 
 	data = (datamsb << 8) | datalsb;
 	return data;
@@ -166,18 +174,18 @@ int readDecoderCounter()
 /*! \fn void resetDecoder()
 	\brief Reset the quadrature decoder counter.
 */
-void resetDecoder()
+void resetDecoder(char op)
 {
-	char op = 0x20;
-	pputs("/sys/class/gpio/gpio10/value","1");
-	pputs("/sys/class/gpio/gpio10/value","0");
+	// the HIGH-LOW transition is the signal to start the communication
+	pputs("/sys/class/gpio/gpio26/value","1");
+	pputs("/sys/class/gpio/gpio26/value","0");
 
 	if(write(devspi, &op, sizeof(op))<0){
 		printf("Erro ao escrever opcode\n");
 		return;
 	}
 
-	pputs("/sys/class/gpio/gpio10/value","1");
+	pputs("/sys/class/gpio/gpio26/value","1");
 }
 
 /*! \fn void closeDecoder()

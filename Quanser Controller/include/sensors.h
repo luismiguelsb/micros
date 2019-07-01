@@ -22,22 +22,28 @@
 #include <sys/ioctl.h>
 #include <linux/spi/spidev.h>
 
-/*! \def MDR0
+
+/*! \def WRITE_MDR0
 	\brief First SPI mode of the LS7366R decoder.
 */
-//QUADRX4|FREE_RUN|DISABLE_INDX|FILTER_2
-#define MDR0 0x83
+#define WRITE_MDR0 0x88
 
-/*! \def MDR1
+/*! \def WRITE_MDR1
 	\brief Second SPI mode of the LS7366R decoder.
 */
-//BYTE_2|EN_CNTR|NO_FLAGS
-#define MDR1 0x02
+#define WRITE_MDR1 	0x90
+
+/*! \def CLR_CNTR
+	\brief Used to clear the LS7366R decoder counter register.
+*/
+#define CLR_CNTR 0x20
 
 /*! \var devspi
 	\brief File descriptor of the SPI device.
 */
 int devspi;
+
+
 
 /*! \fn int limitSwitch(int which_switch)
 	\brief Inform if the limit switch is in the end of course.
@@ -73,8 +79,9 @@ int readDecoderCounter();
 
 /*! \fn void resetDecoder()
 	\brief Reset the quadrature decoder counter.
+	\param op SPI mode to be used.
 */
-void resetDecoder();
+void resetDecoder(char op);
 
 /*! \fn void closeDecoder()
 	\brief Close the file descriptor of the SPI device.
