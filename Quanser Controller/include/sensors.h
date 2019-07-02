@@ -38,6 +38,11 @@
 */
 #define CLR_CNTR 0x20
 
+/*! \def READ_CNTR
+	\brief Used to read the LS7366R decoder counter register.
+*/
+#define READ_CNTR 0x60
+
 /*! \var devspi
 	\brief File descriptor of the SPI device.
 */
@@ -58,24 +63,18 @@ int limitSwitch(int which_switch);
 void setupDecoder();
 
 /*! \fn void writeDecoder(char op, char data)
-	\brief Write a single byte.
+	\brief Write two bytes.
 	\param op SPI mode to be used.
 	\param data Data to be written.
 */
 void writeDecoder(char op, char data);
 
-/*! \fn char readDecoder(char op);
-	\brief Read a single byte using the SPI communication with the LS7366R decoder.
-	\param op SPI mode to be used.
-	\return Byte received.
-*/
-char readDecoder(char op);
 
-/*! \fn int readDecoderCounter();
+/*! \fn int readDecoder(char op);
 	\brief Read the quadrature decoder counter.
-	\return Counter value.
+	\return result Counter value.
 */
-int readDecoderCounter();
+int readDecoder();
 
 /*! \fn void resetDecoder()
 	\brief Reset the quadrature decoder counter.

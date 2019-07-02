@@ -119,6 +119,19 @@ float getCounter();
 float counterToRad(float value);
 
 
+/*! \fn setMotorVoltage(float value)
+	\brief Set the motor voltage.
+	\param value Voltage.
+*/
+void setMotorVoltage(float value);
+
+
+/*! \fn resetPosition()
+	\brief Reset the Quanser position and the decoder to the initial position.
+*/
+void resetPosition();
+
+
 
 
 

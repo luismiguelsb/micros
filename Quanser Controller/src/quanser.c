@@ -94,8 +94,10 @@ void bridgeEnable(int enable)
 {
 	if(enable == 0)
 		pputs("/sys/class/gpio/gpio13/value","0");
-	else
+	else if(enable == 1)
 		pputs("/sys/class/gpio/gpio13/value","1");
+	else
+		printf("Utilize 0 ou 1!\n");
 }
 
 /*! \fn float getCounter()
@@ -104,8 +106,8 @@ void bridgeEnable(int enable)
 float getCounter()
 {
 	float value;
-	resetDecoder();
-	value = readDecoderCounter();
+	resetDecoder(CLR_CNTR);
+	value = readDecoder();
 	closeDecoder();
 
 	return value;
@@ -118,6 +120,38 @@ float getCounter()
 float counterToRad(float value)
 {
 	return 2 * 3.14159265 * value / 4096;
+}
+
+/*! \fn setMotorVoltage(float value)
+	\brief Set the motor voltage.
+	\param value Voltage.
+*/
+void setMotorVoltage(float value)
+{
+	bridgeEnable(0);
+	pwm_init();
+	pwm_enable(0);
+    pwm_duty_cycle(voltage_to_dutycycle(value));
+	pwm_enable(1);
+	bridgeEnable(1);
+}
+
+/*! \fn resetPosition()
+	\brief Reset the Quanser position and the decoder to the initial position.
+*/
+void resetPosition()
+{
+	setMotorVoltage(-5.0);
+	
+	while(limitSwitch(0) == 0 && limitSwitch(1) == 0)
+	{
+		// wait until the Quanser is not in the limit
+	}
+	
+	setMotorVoltage(0);
+	bridgeEnable(0);
+	
+	resetDecoder(CLR_CNTR);	
 }
 
 

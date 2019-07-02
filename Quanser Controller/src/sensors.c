@@ -35,7 +35,7 @@ int limitSwitch(int which_switch)
 		return !(value); // os sensores de fim de curso do quanser tem a logica invertida (quando é 1, ta desligado, quando é 0, ta ligado)
 		// o ! ajusta isso
 	}
-	else
+	else if ( which_switch == 0)
 	{
 		if ( pgets(data_str,sizeof data_str,"/sys/class/gpio/gpio0/value") == NULL)
 			return ERRO;
@@ -44,6 +44,11 @@ int limitSwitch(int which_switch)
 		
 		return !(value); // os sensores de fim de curso do quanser tem a logica invertida (quando é 1, ta desligado, quando é 0, ta ligado)
 		// o ! ajusta isso
+	}
+	else
+	{
+		printf("Utilize 0 ou 1!\n");
+		return -1;
 	}
 }
 
@@ -70,17 +75,17 @@ void setupDecoder()
 	}
 	if(ioctl(devspi,SPI_IOC_WR_LSB_FIRST,&lsb))
 	{
-		perror("Can't read LSB mode");
+		perror("Can't write LSB mode");
 		return;
 	}
 	if(ioctl(devspi,SPI_IOC_WR_BITS_PER_WORD,&bpw))
 	{
-		perror("Can't read bits per word");
+		perror("Can't write bits per word");
 		return;
 	}
 	if(ioctl(devspi,SPI_IOC_WR_MAX_SPEED_HZ,&rate))
 	{
-		perror("Can't read maximal rate");
+		perror("Can't write maximal rate");
 		return;
 	}
 	
@@ -88,11 +93,14 @@ void setupDecoder()
 	writeDecoder(WRITE_MDR0, QUADRX4|FREE_RUN|DISABLE_INDX|FILTER_2); // ou QUADRX1 ?
 	writeDecoder(WRITE_MDR1, BYTE_2|EN_CNTR|NO_FLAGS); // ou BYTE_4 ?
 	
+	// gpio4 = IO9 = DECODER ENABLE
+	pputs("/sys/class/gpio/gpio4/value","1");
+	
 	resetDecoder(CLR_CNTR);
 }	
 
 /*! \fn void writeDecoder(char op, char data)
-	\brief Write a single byte.
+	\brief Write two bytes.
 	\param op SPI mode to be used.
 	\param data Data to be written.
 */
@@ -110,69 +118,52 @@ void writeDecoder(char op, char data)
 		printf("Erro ao escrever data\n");
 		return;
 	}
-
+	
+	// the LOW-HIGH transition is the signal to end the communication
 	pputs("/sys/class/gpio/gpio26/value","1");
 }
 
-/*! \fn char readDecoder(char op);
-	\brief Read a single byte using the SPI communication with the LS7366R decoder.
-	\param op SPI mode to be used.
-	\return Byte received.
-*/
-char readDecoder(char op)
-{
-	int n = 0;
-	char data;
-	// the HIGH-LOW transition is the signal to start the communication
-	pputs("/sys/class/gpio/gpio26/value","1");
-	pputs("/sys/class/gpio/gpio26/value","0");
 
-	if(write(devspi, &op, sizeof(op))<0){
-		printf("Erro ao escrever opcode\n");
-		return 0;
-	}
 
-	lseek(devspi, 0, SEEK_SET);
-	while(n != 1)
-		n = read(devspi, &data, 1);
-
-	pputs("/sys/class/gpio/gpio26/value","1");
-	return data;
-}
-
-/*! \fn int readDecoderCounter();
+/*! \fn int readDecoder(char op);
 	\brief Read the quadrature decoder counter.
-	\return Counter value.
+	\param op SPI mode to be used (READ_CNTR).
+	\return result Counter value.
 */
-int readDecoderCounter()
+int readDecoder(char op)
 {
-	int n = 0;
-	int data, datalsb, datamsb;
-	char op = 0x60;
+	int i;
+	int bytes = 2;	// because MDR1 is configured with BYTE_2
+	int result = 0;
+	char data = 0;
+	
 	// the HIGH-LOW transition is the signal to start the communication
 	pputs("/sys/class/gpio/gpio26/value","1");
 	pputs("/sys/class/gpio/gpio26/value","0");
 
+	// op = READ_CNTR
 	if(write(devspi, &op, sizeof(op))<0){
 		printf("Erro ao escrever opcode\n");
 		return 0;
 	}
 
-	lseek(devspi, 0, SEEK_SET);
-	while(n != 1)
-		n = read(devspi, &datamsb, 1);
-	n = 0;
-	while(n != 1)
-		n = read(devspi, &datalsb, 1);
+	// read data
+	for(i = 0; i < bytes; i++){
+		result = result << 8;
+		lseek(devspi, 0, SEEK_SET);
+		while(read(devspi, &data, sizeof(data)) != sizeof(data));
+		result = result | data;
+	}
 
+	// the LOW-HIGH transition is the signal to end the communication
 	pputs("/sys/class/gpio/gpio26/value","1");
 
-	data = (datamsb << 8) | datalsb;
-	return data;
+	return result;
 }
 
 /*! \fn void resetDecoder()
 	\brief Reset the quadrature decoder counter.
+	\param op SPI mode to be used (CLR_CNTR 0x20).
 */
 void resetDecoder(char op)
 {
@@ -180,11 +171,13 @@ void resetDecoder(char op)
 	pputs("/sys/class/gpio/gpio26/value","1");
 	pputs("/sys/class/gpio/gpio26/value","0");
 
+	// op = CLR_CNTR 0x20
 	if(write(devspi, &op, sizeof(op))<0){
 		printf("Erro ao escrever opcode\n");
 		return;
 	}
 
+	// the LOW-HIGH transition is the signal to end the communication
 	pputs("/sys/class/gpio/gpio26/value","1");
 }
 
