@@ -43,6 +43,51 @@
 */
 #define READ_CNTR 0x60
 
+/*! \def QUADRX4
+	\brief Used to configure the LS7366R decoder mode.
+*/
+#define QUADRX4 0x03
+
+/*! \def QUADRX1
+	\brief Used to configure the LS7366R decoder mode.
+*/
+#define QUADRX1 0x01
+
+/*! \def FREE_RUN
+	\brief Used to configure the LS7366R decoder mode.
+*/
+#define FREE_RUN 0x00
+
+/*! \def DISABLE_INDX
+	\brief Used to configure the LS7366R decoder mode.
+*/
+#define DISABLE_INDX 0x00
+
+/*! \def FILTER_2
+	\brief Used to configure the LS7366R decoder mode.
+*/
+#define FILTER_2 0x80
+
+/*! \def BYTE_2
+	\brief Used to configure the LS7366R decoder mode.
+*/
+#define BYTE_2 0x02
+
+/*! \def BYTE_4
+	\brief Used to configure the LS7366R decoder mode.
+*/
+#define BYTE_4 0x00
+
+/*! \def EN_CNTR
+	\brief Used to configure the LS7366R decoder mode.
+*/
+#define EN_CNTR 0x00
+
+/*! \def NO_FLAGS
+	\brief Used to configure the LS7366R decoder mode.
+*/
+#define NO_FLAGS 0x00
+
 /*! \var devspi
 	\brief File descriptor of the SPI device.
 */
@@ -74,7 +119,7 @@ void writeDecoder(char op, char data);
 	\brief Read the quadrature decoder counter.
 	\return result Counter value.
 */
-int readDecoder();
+int readDecoder(char op);
 
 /*! \fn void resetDecoder()
 	\brief Reset the quadrature decoder counter.

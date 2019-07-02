@@ -107,7 +107,7 @@ float getCounter()
 {
 	float value;
 	resetDecoder(CLR_CNTR);
-	value = readDecoder();
+	value = readDecoder(READ_CNTR);
 	closeDecoder();
 
 	return value;
