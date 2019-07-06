@@ -5,7 +5,10 @@
 
 int main(int argc,char * argv[])
 {
-	printf("Sensor 0: %d\nSensor 1: %d\n",limitSwitch(0),limitSwitch(1));
+	while(1)
+	{
+		printf("Sensor 0: %d\tSensor 1: %d\n",limitSwitch(0),limitSwitch(1));
+	}
 
-    return 0;
+    return OK;
 }

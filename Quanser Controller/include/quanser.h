@@ -13,17 +13,17 @@
 #pragma once
 
 /*! \def KP
-	\brief Proportional Gain of the PID controller.
+	\brief Default Proportional Gain of the PID controller.
 */
 #define KP 0.05
 
 /*! \def KI
-	\brief Integral Gain of the PID controller.
+	\brief Default Integral Gain of the PID controller.
 */
 #define KI 0.05
 
 /*! \def KD
-	\brief Derivative Gain of the PID controller.
+	\brief Default Derivative Gain of the PID controller.
 */
 #define KD 0.01
 
@@ -38,22 +38,22 @@
 #define OK 0
 
 /*! \def HIGHER_VOLTAGE
-	\brief Higher voltage of the power source (in V).
+	\brief Higher voltage of the power source in V.
 */
 #define HIGHER_VOLTAGE 27.0
 
 /*! \def LOWER_VOLTAGE
-	\brief Lower voltage of the power source (in V).
+	\brief Lower voltage of the power source in V.
 */
 #define LOWER_VOLTAGE -27.0
 
 /*! \def HIGHER_DUTYCYCLE
-	\brief Higher duty cycle of the PWM signal (in ns).
+	\brief Higher duty cycle of the PWM signal in ns.
 */
-#define HIGHER_DUTYCYCLE 20000000.0
+#define HIGHER_DUTYCYCLE 20000000.0 // = 20 ms
 
 /*! \def LOWER_DUTYCYCLE
-	\brief Lower duty cycle of the PWM signal (in ns).
+	\brief Lower duty cycle of the PWM signal in ns.
 */
 #define LOWER_DUTYCYCLE 0.0
 
@@ -65,6 +65,9 @@ typedef struct PID
 	float finalAngle;
 	float lastAngle; // para calcular a derivada
 	float integral;
+	float kp;
+	float ki;
+	float kd;
 } PID;
 
 /*! \var g_pid
@@ -101,38 +104,40 @@ float diffPID();
 */
 int voltage_to_dutycycle(float voltage);
 
-/*! \fn void bridgeEnable(int enable)
+/*! \fn int bridgeEnable(int enable)
 	\brief Choose if you want to enable or disable the H-bridge.
 	\param enable 1 enable and 0 disable.
+	\return ERROR or OK
 */
-void bridgeEnable(int enable);
+int bridgeEnable(int enable);
 
-/*! \fn float getCounter()
-	\brief Read the quadrature decoder counter.
+
+/*! \fn float getPositionRad()
+	\brief Read the raw value of the quadrature decoder counter and transform into radians.
+	\return The position of the Quanser arm in radians
 */
-float getCounter();
-
-/*! \fn float counterToRad(float value)
-	\brief Transform the raw value of the quadrature decoder counter into radians.
-	\param value Raw value.
-*/
-float counterToRad(float value);
+float getPositionRad();
 
 
-/*! \fn setMotorVoltage(float value)
+/*! \fn int setMotorVoltage(float value)
 	\brief Set the motor voltage.
 	\param value Voltage.
+	\return ERROR or OK
 */
-void setMotorVoltage(float value);
+int setMotorVoltage(float value);
 
 
-/*! \fn resetPosition()
+/*! \fn int resetPosition()
 	\brief Reset the Quanser position and the decoder to the initial position.
+	\return ERROR or OK
 */
-void resetPosition();
+int resetPosition();
 
 
-
+/*! \fn void quanserInit()
+	\brief Initialize the PWM and the decoder LS7366R that will be used by the Quanser.
+*/
+void quanserInit();
 
 
 

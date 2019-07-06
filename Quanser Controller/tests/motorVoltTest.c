@@ -5,15 +5,13 @@
 
 int main(int argc,char * argv[])
 {
-	bridgeEnable(0);
-	pwm_init();
-	
-        
 	if(argc != 2)
 	{
 		puts("Usage: motorVoltTest <voltagem>");
 		return -1;
 	}
+	
+	quanserInit();
 	
 	float x = atof(argv[1]);
 
@@ -22,12 +20,7 @@ int main(int argc,char * argv[])
 		return -1;
 	}
 	   
-	pwm_enable(0);
-    pwm_duty_cycle(voltage_to_dutycycle(x));
-	pwm_enable(1);
+	setMotorVoltage(x);
 
-	bridgeEnable(1);
-
-
-    return 0;
+    return OK;
 }

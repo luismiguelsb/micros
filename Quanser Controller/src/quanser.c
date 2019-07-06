@@ -24,6 +24,9 @@ int initPID(float initialAngle, float finalAngle)
 	g_pid.integral = 0;
 	g_pid.lastAngle = initialAngle;
 	g_pid.finalAngle = finalAngle;
+	g_pid.kp = KP;
+	g_pid.ki = KI;
+	g_pid.kd = KD;
 	
 	return OK;
 }
@@ -44,8 +47,10 @@ float tensaoPID(float dt, float currentAngle)
 	erro = g_pid.finalAngle - currentAngle;
 	g_pid.integral = g_pid.integral + erro*dt;
 
-	tensao = (KP * erro) + (KI * g_pid.integral) + (KD * derivada);
+	// formula do PID
+	tensao = (g_pid.kp * erro) + (g_pid.ki * g_pid.integral) + (g_pid.kd * derivada);
 
+	// não ultrapassar o limite de tensão da fonte
 	if(tensao > HIGHER_VOLTAGE)
 	{
 		tensao = HIGHER_VOLTAGE;	
@@ -86,72 +91,114 @@ int voltage_to_dutycycle(float voltage)
  
 }
 
-/*! \fn void bridgeEnable(int enable)
+/*! \fn int bridgeEnable(int enable)
 	\brief Choose if you want to enable or disable the H-bridge.
 	\param enable 1 enable and 0 disable.
+	\return ERROR or OK
 */
-void bridgeEnable(int enable)
+int bridgeEnable(int enable)
 {
+	int n = -1;
+	
 	if(enable == 0)
-		pputs("/sys/class/gpio/gpio13/value","0");
+		n = pputs("/sys/class/gpio/gpio13/value","0");
 	else if(enable == 1)
-		pputs("/sys/class/gpio/gpio13/value","1");
+		n = pputs("/sys/class/gpio/gpio13/value","1");
 	else
 		printf("Utilize 0 ou 1!\n");
+	
+	if(n < 0)
+	{
+		printf("Erro no bridgeEnable!\n");
+		return ERRO;
+	}
+	else
+		return OK;
 }
 
-/*! \fn float getCounter()
-	\brief Read the quadrature decoder counter.
+
+/*! \fn float getPositionRad()
+	\brief Read the raw value of the quadrature decoder counter and transform into radians.
+	\return The position of the Quanser arm in radians
 */
-float getCounter()
+float getPositionRad()
 {
-	float value;
-	resetDecoder(CLR_CNTR);
-	value = readDecoder(READ_CNTR);
-	closeDecoder();
-
-	return value;
+	int result;
+	result = readDecoder(READ_CNTR);
+	
+	return 2 * 3.14159265 * result / 4096;
 }
 
-/*! \fn float counterToRad(float value)
-	\brief Transform the raw value of the quadrature decoder counter into radians.
-	\param value Raw value.
-*/
-float counterToRad(float value)
-{
-	return 2 * 3.14159265 * value / 4096;
-}
-
-/*! \fn setMotorVoltage(float value)
+/*! \fn int setMotorVoltage(float value)
 	\brief Set the motor voltage.
 	\param value Voltage.
+	\return ERROR or OK
 */
-void setMotorVoltage(float value)
+int setMotorVoltage(float value)
 {
-	bridgeEnable(0);
-	pwm_init();
+	if(bridgeEnable(0) == ERRO)
+	{
+		printf("Erro no setMotorVoltage!\n");
+		return ERRO;
+	}
+	//pwm_init();
 	pwm_enable(0);
+	
     pwm_duty_cycle(voltage_to_dutycycle(value));
+	
 	pwm_enable(1);
-	bridgeEnable(1);
+	
+	if(bridgeEnable(1) == ERRO)
+	{
+		printf("Erro no setMotorVoltage!\n");
+		return ERRO;
+	}
+	
+	return OK;
 }
 
-/*! \fn resetPosition()
+/*! \fn int resetPosition()
 	\brief Reset the Quanser position and the decoder to the initial position.
+	\return ERROR or OK
 */
-void resetPosition()
+int resetPosition()
 {
-	setMotorVoltage(-5.0);
+	if(setMotorVoltage(-5.0) == ERRO)
+	{
+		printf("Erro no resetPosition!\n");
+		return ERRO;
+	}
 	
 	while(limitSwitch(0) == 0 && limitSwitch(1) == 0)
 	{
 		// wait until the Quanser is not in the limit
 	}
 	
-	setMotorVoltage(0);
-	bridgeEnable(0);
+	if(setMotorVoltage(0) == ERRO)
+	{
+		printf("Erro no resetPosition!\n");
+		return ERRO;
+	}
+	
+	if(bridgeEnable(0) == ERRO)
+	{
+		printf("Erro no resetPosition!\n");
+		return ERRO;
+	}
 	
 	resetDecoder(CLR_CNTR);	
+	
+	return OK;
+}
+
+/*! \fn void quanserInit()
+	\brief Initialize the PWM and the decoder LS7366R that will be used by the Quanser.
+*/
+void quanserInit()
+{
+	pwm_init();
+	setupDecoder();
+	bridgeEnable(0);
 }
 
 

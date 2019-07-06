@@ -3,43 +3,48 @@
 #include "quanser.h"
 #include "sensors.h"
 
+#include <time.h>
+
 int main(int argc,char * argv[])
 {
 	float voltage;
-	float tempo = 0.0;
-	bridgeEnable(0);
-	pwm_init();
-	setupDecoder();	
-        
+	
+	float tempo = 1.0;
+	
 	if(argc != 2)
 	{
 		puts("Usage: pidTest <posicao desejada em radianos>");
 		return -1;
 	}
 	
-	float x = atof(argv[1]);
+	float desiredAngle = atof(argv[1]);
 
-	if(x > 2 * 3.14159265 || x < 0){
+	if(desiredAngle > 2 * 3.14159265 || desiredAngle < 0){
 		printf("Angulo improprio\n");
-		return -1;
+		return ERRO;
 	}
-	initPID(counterToRad(getCounter()),x);
+	
+	quanserInit();
+	
+	initPID(getPositionRad(), desiredAngle);
+	
+	// coloca o braço na posiçao inicial e reseta o contador do decoder
+	resetPosition();
 
-	while(diffPID() > 0.1 || diffPID() < -0.1){
-		voltage = tensaoPID(tempo,counterToRad(getCounter()));
-		tempo = 1.0;
-		pwm_enable(0);
-		pwm_duty_cycle(voltage_to_dutycycle(voltage));
-		pwm_enable(1);
 
-		bridgeEnable(1);
+	while(diffPID() > 0.1 || diffPID() < -0.1)
+	{
+		
+		voltage = tensaoPID(tempo , getPositionRad());
+		
+		setMotorVoltage(voltage);
 
 		sleep(tempo);
 
-		bridgeEnable(0);
+		if(limitSwitch(0) == 1 || limitSwitch(1) == 1)
+					break;
 
-		pwm_enable(0);
 	}
 
-    return 0;
+    return OK;
 }

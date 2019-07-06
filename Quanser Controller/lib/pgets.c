@@ -31,8 +31,12 @@ char *pgets(char *s,int size,const char path[])
 {
 	int fd;
 	
-	if((fd=open(path,O_RDONLY)) ==-1) return NULL;
-	read(fd,s,size);
+	if((fd=open(path,O_RDONLY)) ==-1)
+		return NULL;
+	
+	if((read(fd,s,size)) == -1)
+		return NULL;
+	
 	close(fd);
 	return s;
 }
