@@ -95,43 +95,26 @@ int devspi;
 
 
 
-/*! \fn int limitSwitch(int which_switch)
-	\brief Inform if the limit switch is in the end of course.
-	\param which_switch 0 is the left limit and 1 is the right limit.
-	\return ERROR or the switch value (1 if the arm is in the end of course).
-*/
+
 int limitSwitch(int which_switch);
 
-/*! \fn void setupDecoder()
-	\brief Initialize the SPI communication with the LS7366R decoder.
-*/
+
 void setupDecoder();
 
-/*! \fn void writeDecoder(char op, char data)
-	\brief Write two bytes.
-	\param op SPI mode to be used.
-	\param data Data to be written.
-*/
+
 void writeDecoder(char op, char data);
 
 
-/*! \fn int readDecoder(char op);
-	\brief Read the quadrature decoder counter.
-	\param None.
-	\return result Counter value.
-*/
 int readDecoder();
 
-/*! \fn void resetDecoder()
-	\brief Reset the quadrature decoder counter.
-	\param None.
-*/
+
 void resetDecoder();
 
-/*! \fn void closeDecoder()
-	\brief Close the file descriptor of the SPI device.
-*/
+
 void closeDecoder();
+
+
 
 // testar o read da lauren
 int readCounterLauren();
+

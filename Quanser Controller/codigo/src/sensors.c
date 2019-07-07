@@ -129,7 +129,7 @@ void writeDecoder(char op, char data)
 
 
 
-/*! \fn int readDecoder(char op);
+/*! \fn int readDecoder();
 	\brief Read the quadrature decoder counter.
 	\param None.
 	\return result Counter value.
@@ -203,6 +203,9 @@ void closeDecoder()
 	close(devspi);
 }
 
+
+
+
 // teste da Lauren
 int readCounterLauren()
 {
@@ -233,5 +236,4 @@ int readCounterLauren()
     counter = (msbyte << 8) | lsbyte;
     return counter;
 }
-
 

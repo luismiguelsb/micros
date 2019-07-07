@@ -75,68 +75,34 @@ typedef struct PID
 */
 PID g_pid;
 
-/*! \fn int initPID(float initialAngle, float finalAngle)
-	\brief Initialize the PID struct.
-	\param initialAngle Current position of the QUANSER arm.
-	\param finalAngle Desired position of the QUANSER arm.
-	\return OK or ERRO.
-*/
+
 int initPID(float initialAngle, float finalAngle);
 
-/*! \fn float tensaoPID(float dt, float currentAngle)
-	\brief Calculate the voltage to be applied to the motor based on the PID controller.
-	\param dt Time interval.
-	\param currentAngle Current position of the QUANSER arm.
-	\return Voltage calculated.
-*/
+
 float tensaoPID(float dt, float currentAngle);
 
-/*! \fn float diffPID()
-	\brief Calculate the difference between the desired position and the current position of the QUANSER arm.
-	\return Difference calculated.
-*/
+
 float diffPID();
 
-/*! \fn int voltage_to_dutycycle(float voltage)
-	\brief Map the voltage interval of the power source (in V) to the duty cycle interval of the PWM signal (in ns).
-	\param voltage Value to be mapped (in V).
-	\return Duty cycle calculated.
-*/
+
 int voltage_to_dutycycle(float voltage);
 
-/*! \fn int bridgeEnable(int enable)
-	\brief Choose if you want to enable or disable the H-bridge.
-	\param enable 1 enable and 0 disable.
-	\return OK or ERRO.
-*/
+
 int bridgeEnable(int enable);
 
 
-/*! \fn float getPositionRad()
-	\brief Read the raw value of the quadrature decoder counter and transform into radians.
-	\return The position of the Quanser arm in radians.
-*/
 float getPositionRad();
 
 
-/*! \fn int setMotorVoltage(float value)
-	\brief Set the motor voltage.
-	\param value Voltage.
-	\return OK or ERRO.
-*/
+
 int setMotorVoltage(float value);
 
 
-/*! \fn int resetPosition()
-	\brief Reset the Quanser position and the decoder to the initial position.
-	\return OK or ERRO.
-*/
+
 int resetPosition();
 
 
-/*! \fn void quanserInit()
-	\brief Initialize the PWM and the decoder LS7366R that will be used by the Quanser.
-*/
+
 void quanserInit();
 
 

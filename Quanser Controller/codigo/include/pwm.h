@@ -28,19 +28,11 @@
 */
 #define PWM_PERIOD_2 	"10000000" // = 10 ms
 
-/*! \fn void pwm_init()
-	\brief Initialize the period and the duty cycle of the PWM signal.
-*/
+
 void pwm_init();
 
-/*! \fn void pwm_enable(int enable)
-	\brief Choose if you want to enable or disable the PWM signal.
-	\param enable 1 enable and 0 disable.
-*/
+
 void pwm_enable(int enable);
 
-/*! \fn void pwm_duty_cycle(int duty_cycle)
-	\brief Set the duty cycle of the PWM signal.
-	\param duty_cycle Value in ns (must be lower than PWM_PERIOD)
-*/
+
 void pwm_duty_cycle(int duty_cycle);

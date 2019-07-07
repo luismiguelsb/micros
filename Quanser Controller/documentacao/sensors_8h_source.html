@@ -120,25 +120,31 @@ $(function() {
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="keywordtype">int</span> <a class="code" href="sensors_8h.html#a50ab4257cb286176e196ccc51d31fc59">limitSwitch</a>(<span class="keywordtype">int</span> which_switch);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="keywordtype">int</span> <a class="code" href="sensors_8h.html#a50ab4257cb286176e196ccc51d31fc59">limitSwitch</a>(<span class="keywordtype">int</span> which_switch);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="keywordtype">void</span> <a class="code" href="sensors_8h.html#a5dfbc0ea8690527307c36e4894f9e28c">setupDecoder</a>();</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="keywordtype">void</span> <a class="code" href="sensors_8h.html#a5dfbc0ea8690527307c36e4894f9e28c">setupDecoder</a>();</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="keywordtype">void</span> <a class="code" href="sensors_8h.html#aabfb397b3415376aac04affca471240a">writeDecoder</a>(<span class="keywordtype">char</span> op, <span class="keywordtype">char</span> data);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="keywordtype">int</span> <a class="code" href="sensors_8h.html#ac4f0e90a1aefa00089b6737535b6278e">readDecoder</a>();</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="keywordtype">void</span> <a class="code" href="sensors_8h.html#aabfb397b3415376aac04affca471240a">writeDecoder</a>(<span class="keywordtype">char</span> op, <span class="keywordtype">char</span> data);</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="keywordtype">int</span> <a class="code" href="sensors_8h.html#a1348757fa7ac2dc51272ac31a4f5d8fb">readDecoder</a>(<span class="keywordtype">char</span> op);</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="keywordtype">void</span> resetDecoder(<span class="keywordtype">char</span> op);</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="keywordtype">void</span> <a class="code" href="sensors_8h.html#a4789a8de73a10799d869cf07f32f74ca">closeDecoder</a>();</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="keywordtype">void</span> <a class="code" href="sensors_8h.html#afef1e91be11d5791ae90f522b46db3d7">resetDecoder</a>();</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="keywordtype">void</span> <a class="code" href="sensors_8h.html#a4789a8de73a10799d869cf07f32f74ca">closeDecoder</a>();</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="asensors_8h_html_a5dfbc0ea8690527307c36e4894f9e28c"><div class="ttname"><a href="sensors_8h.html#a5dfbc0ea8690527307c36e4894f9e28c">setupDecoder</a></div><div class="ttdeci">void setupDecoder()</div><div class="ttdoc">Initialize the SPI communication with the LS7366R decoder.</div><div class="ttdef"><b>Definition:</b> sensors.c:61</div></div>
 <div class="ttc" id="asensors_8h_html_a6c307f9a51e6bf3d140869a67a7c2d4e"><div class="ttname"><a href="sensors_8h.html#a6c307f9a51e6bf3d140869a67a7c2d4e">devspi</a></div><div class="ttdeci">int devspi</div><div class="ttdoc">File descriptor of the SPI device.</div><div class="ttdef"><b>Definition:</b> sensors.h:94</div></div>
+<div class="ttc" id="asensors_8h_html_afef1e91be11d5791ae90f522b46db3d7"><div class="ttname"><a href="sensors_8h.html#afef1e91be11d5791ae90f522b46db3d7">resetDecoder</a></div><div class="ttdeci">void resetDecoder()</div><div class="ttdoc">Reset the quadrature decoder counter.</div><div class="ttdef"><b>Definition:</b> sensors.c:176</div></div>
 <div class="ttc" id="asensors_8h_html_a50ab4257cb286176e196ccc51d31fc59"><div class="ttname"><a href="sensors_8h.html#a50ab4257cb286176e196ccc51d31fc59">limitSwitch</a></div><div class="ttdeci">int limitSwitch(int which_switch)</div><div class="ttdoc">Inform if the limit switch is in the end of course.</div><div class="ttdef"><b>Definition:</b> sensors.c:21</div></div>
-<div class="ttc" id="asensors_8h_html_a4789a8de73a10799d869cf07f32f74ca"><div class="ttname"><a href="sensors_8h.html#a4789a8de73a10799d869cf07f32f74ca">closeDecoder</a></div><div class="ttdeci">void closeDecoder()</div><div class="ttdoc">Close the file descriptor of the SPI device.</div><div class="ttdef"><b>Definition:</b> sensors.c:195</div></div>
-<div class="ttc" id="asensors_8h_html_a1348757fa7ac2dc51272ac31a4f5d8fb"><div class="ttname"><a href="sensors_8h.html#a1348757fa7ac2dc51272ac31a4f5d8fb">readDecoder</a></div><div class="ttdeci">int readDecoder(char op)</div><div class="ttdoc">Read the quadrature decoder counter.</div><div class="ttdef"><b>Definition:</b> sensors.c:138</div></div>
+<div class="ttc" id="asensors_8h_html_a4789a8de73a10799d869cf07f32f74ca"><div class="ttname"><a href="sensors_8h.html#a4789a8de73a10799d869cf07f32f74ca">closeDecoder</a></div><div class="ttdeci">void closeDecoder()</div><div class="ttdoc">Close the file descriptor of the SPI device.</div><div class="ttdef"><b>Definition:</b> sensors.c:201</div></div>
+<div class="ttc" id="asensors_8h_html_ac4f0e90a1aefa00089b6737535b6278e"><div class="ttname"><a href="sensors_8h.html#ac4f0e90a1aefa00089b6737535b6278e">readDecoder</a></div><div class="ttdeci">int readDecoder()</div><div class="ttdoc">Read the quadrature decoder counter.</div><div class="ttdef"><b>Definition:</b> sensors.c:138</div></div>
 <div class="ttc" id="asensors_8h_html_aabfb397b3415376aac04affca471240a"><div class="ttname"><a href="sensors_8h.html#aabfb397b3415376aac04affca471240a">writeDecoder</a></div><div class="ttdeci">void writeDecoder(char op, char data)</div><div class="ttdoc">Write two bytes.</div><div class="ttdef"><b>Definition:</b> sensors.c:111</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
