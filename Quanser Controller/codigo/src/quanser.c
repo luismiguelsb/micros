@@ -132,7 +132,7 @@ int bridgeEnable(int enable)
 float getPositionRad()
 {
 	int result;
-	result = readDecoder(READ_CNTR);
+	result = readDecoder();
 	
 	return 2 * 3.14159265 * result / 4096;
 }
@@ -197,7 +197,7 @@ int resetPosition()
 		return ERRO;
 	}
 	
-	resetDecoder(CLR_CNTR);	
+	resetDecoder();	
 	
 	return OK;
 }

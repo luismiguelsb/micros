@@ -117,18 +117,21 @@ void writeDecoder(char op, char data);
 
 /*! \fn int readDecoder(char op);
 	\brief Read the quadrature decoder counter.
+	\param None.
 	\return result Counter value.
 */
-int readDecoder(char op);
+int readDecoder();
 
 /*! \fn void resetDecoder()
 	\brief Reset the quadrature decoder counter.
-	\param op SPI mode to be used.
+	\param None.
 */
-void resetDecoder(char op);
+void resetDecoder();
 
 /*! \fn void closeDecoder()
 	\brief Close the file descriptor of the SPI device.
 */
 void closeDecoder();
 
+// testar o read da lauren
+int readCounterLauren();

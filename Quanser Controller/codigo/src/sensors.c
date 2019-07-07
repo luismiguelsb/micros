@@ -99,7 +99,7 @@ void setupDecoder()
 	// gpio4 = IO9 = DECODER ENABLE
 	pputs("/sys/class/gpio/gpio4/value","1");
 	
-	resetDecoder(CLR_CNTR);
+	resetDecoder();
 }	
 
 /*! \fn void writeDecoder(char op, char data)
@@ -131,16 +131,18 @@ void writeDecoder(char op, char data)
 
 /*! \fn int readDecoder(char op);
 	\brief Read the quadrature decoder counter.
-	\param op SPI mode to be used (READ_CNTR).
+	\param None.
 	\return result Counter value.
 	\see See sensors.h for the header of the function.
 */
-int readDecoder(char op)
+int readDecoder()
 {
 	int i;
 	int bytes = 2;	// because MDR1 is configured with BYTE_2
 	int result = 0;
 	char data = 0;
+	
+	char op = READ_CNTR;
 	
 	// the HIGH-LOW transition is the signal to start the communication
 	pputs("/sys/class/gpio/gpio26/value","1");
@@ -168,11 +170,15 @@ int readDecoder(char op)
 
 /*! \fn void resetDecoder()
 	\brief Reset the quadrature decoder counter.
-	\param op SPI mode to be used (CLR_CNTR 0x20).
+	\param None.
 	\see See sensors.h for the header of the function.
 */
-void resetDecoder(char op)
+void resetDecoder()
 {
+	
+	char op = CLR_CNTR;
+	
+	
 	// the HIGH-LOW transition is the signal to start the communication
 	pputs("/sys/class/gpio/gpio26/value","1");
 	pputs("/sys/class/gpio/gpio26/value","0");
@@ -196,4 +202,36 @@ void closeDecoder()
 {
 	close(devspi);
 }
+
+// teste da Lauren
+int readCounterLauren()
+{
+    unsigned char lsbyte, msbyte;
+    int counter;
+    char read_op = READ_CNTR;
+
+    // the HIGH-LOW transition is the signal to start the communication
+	pputs("/sys/class/gpio/gpio26/value","1");
+	pputs("/sys/class/gpio/gpio26/value","0");
+
+    // send command to read counter
+    if(write(devspi, &read_op, 1) < 0) {
+        printf("Can't write to decoder.\n");
+        return -1;
+    }
+
+    // read most significant byte
+    lseek(devspi, 0, SEEK_SET);
+	while(read(devspi, &msbyte, 1) != 1);
+    // read most significant byte
+    lseek(devspi, 0, SEEK_SET);
+	while(read(devspi, &lsbyte, 1) != 1);
+
+	
+    pputs("/sys/class/gpio/gpio26/value","1");
+
+    counter = (msbyte << 8) | lsbyte;
+    return counter;
+}
+
 
