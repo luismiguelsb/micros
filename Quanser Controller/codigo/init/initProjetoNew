@@ -18,10 +18,10 @@
 #				Nicolas Eymael da Silva
 # 
 #	IO2		OUT	Bridge Enable
-#	IO3		OUT	PWM			>> IO6		
-#	IO4		OUT	Decoder Enable		>> IO9
-#	IO5		IN	Limit Switch 0		>> IO4
-#	IO6		IN	Limit Switch 1		>> IO5
+#	IO6		OUT	PWM					
+#	IO9		OUT	Decoder Enable		
+#	IO4		IN	Limit Switch 0		
+#	IO5		IN	Limit Switch 1		
 #	IO10	OUT	Decoder SS
 #	IO11	OUT	SPI MOSI
 #	IO12	IN	SPI MISO
@@ -52,7 +52,7 @@ case "$1" in
 	echo -n "0" > /sys/class/gpio/gpio77/value
 	
 	
-	#	IO3		OUT	PWM		>> IO6
+	#	IO6		OUT	PWM		
 	if [ ! -d /sys/class/pwm/pwmchip0/pwm5 ] ; then
 	    echo -n "5" > /sys/class/pwm/pwmchip0/export
 	fi
@@ -82,7 +82,7 @@ case "$1" in
 	
 	
 	
-	#	IO4		OUT	Decoder Enable		>> IO9
+	#	IO9		OUT	Decoder Enable		
 	if [ ! -d /sys/class/gpio/gpio4 ] ; then
 	    echo -n "4" > /sys/class/gpio/export
 	fi
@@ -102,7 +102,7 @@ case "$1" in
 	echo -n "0" > /sys/class/gpio/gpio70/value
 	
 	
-	#	IO5		IN	Limit Switch 0		>> IO4
+	#	IO4		IN	Limit Switch 0		
 	if [ ! -d /sys/class/gpio/gpio6 ] ; then
 	    echo -n "6" > /sys/class/gpio/export
 	fi
@@ -119,7 +119,7 @@ case "$1" in
 	
 	
 	
-	#	IO6		IN	Limit Switch 1		>> IO5
+	#	IO5		IN	Limit Switch 1		
 	if [ ! -d /sys/class/gpio/gpio0 ] ; then
 	    echo -n "0" > /sys/class/gpio/export
 	fi
@@ -228,25 +228,25 @@ case "$1" in
 	echo -n "34" > /sys/class/gpio/unexport
 	echo -n "77" > /sys/class/gpio/unexport
 	
-	# IO3 >> IO6
+	# IO6 
 	echo -n "0" > /sys/class/pwm/pwmchip0/pwm5/enable
 	echo -n "1" > /sys/class/pwm/pwmchip0/unexport
 	echo -n "20" > /sys/class/gpio/unexport
 	echo -n "21" > /sys/class/gpio/unexport
         echo -n "68" > /sys/class/gpio/unexport
 	
-	# IO4 >> IO9
+	# IO9 
 	echo -n "4" > /sys/class/gpio/unexport
     echo -n "0" > /sys/class/gpio/gpio6/value
 	echo -n "22" > /sys/class/gpio/unexport
 	echo -n "70" > /sys/class/gpio/unexport
 	
-	# IO5 >> IO4
+	# IO4 
     echo -n "6" > /sys/class/gpio/unexport
 	echo -n "36" > /sys/class/gpio/unexport
 	
 	
-	# IO6 >> IO5
+	# IO5 
     echo -n "0" > /sys/class/gpio/unexport
 	echo -n "18" > /sys/class/gpio/unexport
 	echo -n "66" > /sys/class/gpio/unexport
