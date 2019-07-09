@@ -114,7 +114,3 @@ void resetDecoder();
 void closeDecoder();
 
 
-
-// testar o read da lauren
-int readCounterLauren();
-

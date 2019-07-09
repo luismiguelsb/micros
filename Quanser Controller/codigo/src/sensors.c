@@ -203,37 +203,3 @@ void closeDecoder()
 	close(devspi);
 }
 
-
-
-
-// teste da Lauren
-int readCounterLauren()
-{
-    unsigned char lsbyte, msbyte;
-    int counter;
-    char read_op = READ_CNTR;
-
-    // the HIGH-LOW transition is the signal to start the communication
-	pputs("/sys/class/gpio/gpio26/value","1");
-	pputs("/sys/class/gpio/gpio26/value","0");
-
-    // send command to read counter
-    if(write(devspi, &read_op, 1) < 0) {
-        printf("Can't write to decoder.\n");
-        return -1;
-    }
-
-    // read most significant byte
-    lseek(devspi, 0, SEEK_SET);
-	while(read(devspi, &msbyte, 1) != 1);
-    // read most significant byte
-    lseek(devspi, 0, SEEK_SET);
-	while(read(devspi, &lsbyte, 1) != 1);
-
-	
-    pputs("/sys/class/gpio/gpio26/value","1");
-
-    counter = (msbyte << 8) | lsbyte;
-    return counter;
-}
-
